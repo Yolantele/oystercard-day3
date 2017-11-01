@@ -9,9 +9,22 @@ describe Oystercard do
     topped_up_card.top_up(5)
   end
 
+  def in_out
+    topped_up_card.touch_in(:station)
+    topped_up_card.touch_out(:station)
+  end
+
+  def top_and_in
+    topped_up_card.touch_in(:station)
+  end
+
   describe 'initialize' do
     it 'Check if oystercard has a balance equal to 0' do
       expect(subject.balance).to eq(0)
+    end
+
+    it 'should create a list of journeys with an empty array' do
+      expect(subject.list_of_journeys).to eq []
     end
   end
 
@@ -30,7 +43,7 @@ describe Oystercard do
 
   describe '#touch_in' do
     it 'should change in journey to true' do
-      topped_up_card.touch_in(:station)
+      top_and_in
       expect(topped_up_card.in_journey?).to eq true
     end
 
@@ -46,11 +59,6 @@ describe Oystercard do
   end
 
   describe '#touch_out' do
-    def in_out
-      topped_up_card.touch_in(:station)
-      topped_up_card.touch_out
-    end
-
     it 'should change in journey to false' do
       in_out
       expect(topped_up_card.in_journey?).to eq false
@@ -69,8 +77,19 @@ describe Oystercard do
 
   describe '#in_journey?' do
     it 'Check if the card is in use or not.' do
-      topped_up_card.touch_in(:station)
+      top_and_in
       expect(topped_up_card.in_journey?).to eq(true)
+    end
+  end
+
+  describe '#list_of_journeys' do
+    it 'should store a list of journeys' do
+      topped_up_card.touch_in('A')
+      topped_up_card.touch_out('B')
+      topped_up_card.touch_in('C')
+      topped_up_card.touch_out('D')
+      expected_hash = [{ 'A' => 'B' }, { 'C' => 'D' }]
+      expect(topped_up_card.list_of_journeys).to eq(expected_hash)
     end
   end
 end
