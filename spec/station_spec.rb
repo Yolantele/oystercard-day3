@@ -6,7 +6,7 @@ describe Station do
 
   describe 'initialize' do
     it 'should return station\'s name' do
-      expect(subject.name).to eq 'abc'
+      expect(subject.name).to eq('abc')
     end
 
     it 'should return station\'s zone' do

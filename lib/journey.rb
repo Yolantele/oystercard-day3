@@ -3,14 +3,14 @@ require './lib/station'
 class Journey
   attr_reader :entry_station, :exit_station, :journey, :list_of_journeys
 
-  def initialize#(entry_station)
+  MINIMUM_FARE = 1
+
+  def initialize
     @list_of_journeys = []
     @journey = {}
   end
 
   def touch_in(entry_station)
-    # raise 'Insufficient balance for travel' if @balance < MINIMUM_FARE
-    # unless journey_comlete?
     @entry_station = entry_station
     @journey[entry_station]
   end
@@ -20,27 +20,31 @@ class Journey
   end
 
   def touch_out(exit_station)
+    @journey[@entry_station] = nil if exit_station == @entry_station
     @journey[@entry_station] = exit_station
     add_journey
+    reset_journey
+  end
+
+  def reset_journey
     @entry_station = nil
-    end_journey?#deduct if in_journey?
-    # send message to to Card.deduct (activate)
+    @exit_station = nil
   end
 
   def end_journey?
-    @exit_station != nil unless in_journey?
+    @exit_station != nil
   end
 
-  def calculate_fare
-    raise 'Journey not complete' if  in_journey?
-    4
+  def fare(journey)
+    raise 'Unable to calculate fare while journey is not complete' if in_journey?
+    @entry_station && @exit_station ? MINIMUM_FARE : 6 * MINIMUM_FARE
   end
 
-    private
+  private
 
-    def add_journey
-      @list_of_journeys << @journey
-      @journey = {}
-    end
+  def add_journey
+    @list_of_journeys << @journey
+    @journey = {}
+  end
 
 end

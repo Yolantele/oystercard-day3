@@ -2,7 +2,7 @@ require './lib/journey.rb'
 # RSpec test file for Journey Class implementation code
 describe Journey do
   subject(:journey) { described_class.new }
-  let(:station) { double(:station) }
+  let(:station) { double :station}
 
   def touch_in_out
     subject.touch_in(:station)
@@ -26,17 +26,22 @@ describe Journey do
     end
   end
 
-  describe ' #calculate_fare' do
+  describe ' #fare' do
     context 'journey complete (end_journey?)' do
       it ' should calculate the fare' do
         touch_in_out
-        expect(subject.calculate_fare).to eq 4
+        expect(subject.fare(journey)).to eq 1
+      end
+      it 'should charge 6 times the minimum fare amount' do
+        journey = [{ 'A' => 'A' }]
+        expect(subject.fare(journey)).to eq 6
       end
     end
     context 'journey not complete (in_journey?)' do
-      it 'should fail is journey is not complete' do
+      it 'should fail if journey is not complete' do
         subject.touch_in('A')
-        expect { subject.calculate_fare }.to raise_error('Journey not complete')
+        message = 'Unable to calculate fare while journey is not complete'
+        expect { subject.fare(journey)}.to raise_error(message)
       end
     end
   end
