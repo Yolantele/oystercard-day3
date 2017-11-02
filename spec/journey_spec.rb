@@ -15,40 +15,27 @@ describe Journey do
       expect(subject.in_journey?).to eq true
     end
 
-    # it 'raises error if balance is less than minimum' do
-    #   message = 'Insufficient balance for travel'
-    #   expect { subject.touch_in(:station) }.to raise_error(message)
-    # end
-
-    it 'remembers the enrty station' do
+    it 'remembers the entry station' do
       subject.touch_in('Aldgate East')
       expect(subject.entry_station).to eq 'Aldgate East'
     end
   end
 
   describe ' #fare' do
-    context 'journey complete (end_journey?)' do
-      it ' should calculate the fare' do
-        touch_in_out
-        expect(subject.fare(journey)).to eq 1
-      end
-      it 'should charge 6 times the minimum fare amount' do
-        journey = [{ 'A' => 'A' }]
-        expect(subject.fare(journey)).to eq 6
-      end
+    it ' should calculate the fare' do
+      subject.touch_in('A')
+      subject.touch_out('B')
+      expect(subject.fare).to eq 1
     end
-    context 'journey not complete (in_journey?)' do
-      it 'should fail if journey is not complete' do
-        subject.touch_in('A')
-        message = 'Unable to calculate fare while journey is not complete'
-        expect { subject.fare(journey)}.to raise_error(message)
-      end
+    it 'should charge penalty' do
+      journey = [{ 'A' => nil }]
+      expect(subject.fare).to eq 6
     end
+
   end
 
   describe ' #touch_out' do
     it 'should change in_journey to false' do
-      # in_out
       touch_in_out
       expect(subject.in_journey?).to eq false
     end
@@ -57,10 +44,6 @@ describe Journey do
       touch_in_out
       expect(subject.end_journey?).to_not be nil
     end
-    # it 'check if touch_out reduce balance by minumum fare' do
-    #   in_out
-    #   expect(topped_up_card.balance).to eq(4)
-    # end
 
     it 'should set entry station to nil' do
       touch_in_out
@@ -70,7 +53,7 @@ describe Journey do
 
   describe '#in_journey?' do
     it 'Check if the card is in use or not.' do
-      subject.touch_in('A')# top_and_in
+      subject.touch_in('A')
       expect(subject.in_journey?).to eq(true)
     end
   end
