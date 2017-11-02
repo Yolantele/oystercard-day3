@@ -1,5 +1,13 @@
 # oystercard
 
+Oyster card program features:
+
+- Balance with maximum limit
+- Calculates fares between zones
+- Deducts penalty fares in case of touch in.out failure
+- Records journey history - entry and exit stations
+
+
 ### Domain Models
 
 | Object           | Messages      | Tests                   |

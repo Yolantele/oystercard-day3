@@ -22,10 +22,9 @@ describe Oystercard do
     it 'Check if oystercard has a balance equal to 0' do
       expect(subject.balance).to eq(0)
     end
-
-    it 'should create a list of journeys with an empty array' do
-      expect(subject.list_of_journeys).to eq []
-    end
+  #   it 'should create a list of journeys with an empty array' do
+  #     expect(subject.list_of_journeys).to eq []
+  #   end
   end
 
   describe '#top_up' do
@@ -40,56 +39,55 @@ describe Oystercard do
       expect { subject.top_up(1) }.to raise_error(error_top_up)
     end
   end
+  # describe '#touch_in' do
+  #   it 'should change in journey to true' do
+  #     top_and_in
+  #     expect(topped_up_card.in_journey?).to eq true
+  #   end
+  #
+  #   it 'raises error if balance is less than minimum' do
+  #     message = 'Insufficient balance for travel'
+  #     expect { subject.touch_in(:station) }.to raise_error(message)
+  #   end
+  #
+  #   it 'remembers the enrty station' do
+  #     topped_up_card.touch_in('Aldgate East')
+  #     expect(topped_up_card.entry_station).to eq 'Aldgate East'
+  #   end
+  # end
 
-  describe '#touch_in' do
-    it 'should change in journey to true' do
-      top_and_in
-      expect(topped_up_card.in_journey?).to eq true
-    end
+  # describe '#touch_out' do
+  #   # it 'should change in journey to false' do
+  #   #   in_out
+  #   #   expect(topped_up_card.in_journey?).to eq false
+  #   # end
+  #
+  #   it 'check if touch_out reduce balance by minumum fare' do
+  #     in_out
+  #     expect(topped_up_card.balance).to eq(4)
+  #   end
+  #
+  #   # it 'should set entry station to nil' do
+  #   #   in_out
+  #   #   expect(topped_up_card.entry_station).to eq nil
+  #   # end
+  # end
 
-    it 'raises error if balance is less than minimum' do
-      message = 'Insufficient balance for travel'
-      expect { subject.touch_in(:station) }.to raise_error(message)
-    end
+  # describe '#in_journey?' do
+  #   it 'Check if the card is in use or not.' do
+  #     top_and_in
+  #     expect(topped_up_card.in_journey?).to eq(true)
+  #   end
+  # end
 
-    it 'remembers the enrty station' do
-      topped_up_card.touch_in('Aldgate East')
-      expect(topped_up_card.entry_station).to eq 'Aldgate East'
-    end
-  end
-
-  describe '#touch_out' do
-    it 'should change in journey to false' do
-      in_out
-      expect(topped_up_card.in_journey?).to eq false
-    end
-
-    it 'check if touch_out reduce balance by minumum fare' do
-      in_out
-      expect(topped_up_card.balance).to eq(4)
-    end
-
-    it 'should set entry station to nil' do
-      in_out
-      expect(topped_up_card.entry_station).to eq nil
-    end
-  end
-
-  describe '#in_journey?' do
-    it 'Check if the card is in use or not.' do
-      top_and_in
-      expect(topped_up_card.in_journey?).to eq(true)
-    end
-  end
-
-  describe '#list_of_journeys' do
-    it 'should store a list of journeys' do
-      topped_up_card.touch_in('A')
-      topped_up_card.touch_out('B')
-      topped_up_card.touch_in('C')
-      topped_up_card.touch_out('D')
-      expected_hash = [{ 'A' => 'B' }, { 'C' => 'D' }]
-      expect(topped_up_card.list_of_journeys).to eq(expected_hash)
-    end
-  end
+  # describe '#list_of_journeys' do
+  #   it 'should store a list of journeys' do
+  #     topped_up_card.touch_in('A')
+  #     topped_up_card.touch_out('B')
+  #     topped_up_card.touch_in('C')
+  #     topped_up_card.touch_out('D')
+  #     expected_hash = [{ 'A' => 'B' }, { 'C' => 'D' }]
+  #     expect(topped_up_card.list_of_journeys).to eq(expected_hash)
+  #   end
+  # end
 end
