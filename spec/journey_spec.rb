@@ -25,6 +25,8 @@ describe Journey do
     it ' should calculate the fare' do
       subject.touch_in('A')
       subject.touch_out('B')
+      p "HERE!!!!!", subject.entry_station
+      p "HERE!!!!!", subject.exit_station
       expect(subject.fare).to eq 1
     end
     it 'should charge penalty' do

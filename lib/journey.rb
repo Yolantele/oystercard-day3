@@ -5,15 +5,14 @@ class Journey
 
   MINIMUM_FARE = 1
 
-  def initialize(entry_station = nil)
-    @entry_station = entry_station
+  def initialize
     @list_of_journeys = []
     @journey = {}
   end
 
   def touch_in(entry_station)
-    @entry_station == nil ? @entry_station = entry_station : @entry_station = nil
-    @journey[entry_station]
+    @entry_station = entry_station
+    @journey[@entry_station]
   end
 
   def in_journey?
@@ -21,19 +20,26 @@ class Journey
   end
 
   def touch_out(exit_station)
-    @journey[@entry_station] = nil if exit_station == @entry_station
-    @journey[@entry_station] = exit_station
+    if exit_station == @entry_station
+      @journey[@entry_station] = nil
+    else
+      #@exit_station = exit_station
+      @journey[@entry_station] = exit_station
+    end
+    # @journey[@entry_station] = nil if exit_station == @entry_station
+    # @journey[@entry_station] = exit_station
+    fare
     add_journey
     reset_journey
   end
 
   def end_journey?
-    @exit_station != nil
+    @journey[@entry_station] != nil
   end
 
   def reset_journey
     @entry_station = nil
-    @exit_station = nil
+    @journey[@entry_station] = nil
   end
 
   def penalty
@@ -41,7 +47,7 @@ class Journey
   end
 
   def fare
-    @entry_station && @exit_station ? MINIMUM_FARE : penalty
+    @entry_station && @journey[@entry_station] ? MINIMUM_FARE : penalty
   end
 
   private
